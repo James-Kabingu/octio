@@ -1,1 +1,8 @@
 .env
+*.txt
+*.pdf
+octio-demo*.mp4
+indicators.json
+registry.json
+oracle_results.json
+correlation.json
