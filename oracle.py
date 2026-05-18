@@ -1,18 +1,20 @@
 import json
-import hashlib
 import requests
 import os
-from datetime import datetime
+import pathlib
+from datetime import datetime, timezone
 from dotenv import load_dotenv
+from eth_hash.auto import keccak
 
-load_dotenv("/home/james-warren/Projects/Vektasafe Projects/octio/.env")
+BASE = pathlib.Path("/home/james-warren/Projects/Vektasafe Projects/octio")
+load_dotenv(BASE / ".env")
 
 API_KEY = os.getenv("OPENROUTER_API_KEY").strip('"')
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "google/gemma-3-27b-it"
 
 def load_registry():
-    with open("/home/james-warren/Projects/Vektasafe Projects/octio/registry.json") as f:
+    with open(BASE / "registry.json") as f:
         data = json.load(f)
     return data["indicators"]
 
@@ -22,7 +24,7 @@ def hash_target(url_or_address):
         domain = parts[2] if len(parts) > 2 else url_or_address
     else:
         domain = url_or_address
-    return hashlib.sha256(domain.encode()).hexdigest()[:16]
+    return keccak(domain.encode()).hex()
 
 def query_registry(target, registry):
     target_hash = hash_target(target)
@@ -62,12 +64,10 @@ Respond in JSON only:
         prompt = f"""You are a DeFi security oracle. A protocol is about to interact with:
 Target: {target}
 
-This target IS in the threat registry with the following data:
-- Severity: {query_result['severity']}
-- Type: {query_result['indicator_type']}
-- Reasoning: {query_result['reasoning']}
-
-Provide a final risk assessment for the protocol.
+This target IS in the threat registry:
+- Severity: {query_result["severity"]}
+- Type: {query_result["indicator_type"]}
+- Reasoning: {query_result["reasoning"]}
 
 Respond in JSON only:
 {{
@@ -76,29 +76,35 @@ Respond in JSON only:
     "reasoning": "one sentence"
 }}"""
 
-    response = requests.post(
-        OPENROUTER_URL,
-        headers={
-            "Authorization": f"Bearer {API_KEY}",
-            "Content-Type": "application/json"
-        },
-        json={
-            "model": MODEL,
-            "messages": [{"role": "user", "content": prompt}]
-        }
-    )
-
-    content = response.json()["choices"][0]["message"]["content"].strip()
-    if content.startswith("```"):
-        content = content.split("```")[1]
-        if content.startswith("json"):
-            content = content[4:]
-    return json.loads(content.strip())
+    for attempt in range(3):
+        try:
+            response = requests.post(
+                OPENROUTER_URL,
+                headers={
+                    "Authorization": f"Bearer {API_KEY}",
+                    "Content-Type": "application/json"
+                },
+                json={
+                    "model": MODEL,
+                    "messages": [{"role": "user", "content": prompt}]
+                },
+                timeout=30
+            )
+            response.raise_for_status()
+            content = response.json()["choices"][0]["message"]["content"].strip()
+            if content.startswith("```"):
+                content = content.split("```")[1]
+                if content.startswith("json"):
+                    content = content[4:]
+            return json.loads(content.strip())
+        except Exception as e:
+            print(f"  Attempt {attempt+1} failed: {e}")
+    return {"risk_level": "UNKNOWN", "recommendation": "CAUTION", "reasoning": "Analysis unavailable"}
 
 def run_oracle(targets):
     registry = load_registry()
     print("\n=== OCTIO Oracle Interface ===")
-    print(f"Timestamp: {datetime.now().isoformat()}")
+    print(f"Timestamp: {datetime.now(timezone.utc).isoformat()}")
     print(f"Registry size: {len(registry)} indicators\n")
 
     results = []
@@ -113,7 +119,7 @@ def run_oracle(targets):
             "in_registry": query_result["flagged"],
             "registry_severity": query_result["severity"],
             "gemma_assessment": assessment,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
         results.append(result)
 
@@ -123,7 +129,7 @@ def run_oracle(targets):
         print(f"  Recommendation: {assessment['recommendation']}")
         print(f"  Reasoning: {assessment['reasoning']}\n")
 
-    with open("/home/james-warren/Projects/Vektasafe Projects/octio/oracle_results.json", "w") as f:
+    with open(BASE / "oracle_results.json", "w") as f:
         json.dump(results, f, indent=2)
 
     print(f"Oracle results saved to oracle_results.json")

@@ -1,0 +1,403 @@
+================================================================================
+  LIMITATIONS OF DEPLOYED WEB3 THREAT MODELS: TECHNICAL ANALYSIS
+  OCTIO Research Documentation | James Kabingu Mbugua | May 2026
+================================================================================
+
+OVERVIEW
+--------
+The Web3 security landscape currently comprises five major deployed threat
+intelligence and monitoring systems: Forta Network, Forta Firewall (FORTRESS),
+CertiK Skynet, OpenZeppelin Defender/Monitor, and Tenderly Alerts. This document
+provides a deep technical analysis of the architectural limitations of each
+system, with specific focus on the Web2 attack surface gap that OCTIO is
+designed to address.
+
+The central finding is that no deployed system can:
+  (a) monitor Web2 infrastructure signals (DNS, certificates, phishing, supply
+      chain) in real time, AND
+  (b) expose that intelligence as a native query interface to smart contracts
+      at transaction execution time.
+
+This gap is the precise problem OCTIO addresses.
+
+--------------------------------------------------------------------------------
+
+1. FORTA NETWORK
+----------------
+Architecture: Detection bots (Docker containers) run on scan nodes. Scan nodes
+listen to on-chain blocks and transactions from EVM chains. Alerts are published
+to IPFS with content hash references stored on Polygon. Developers stake 100
+FORT per bot; scan node operators stake 2,500 FORT per node.
+
+1.1 On-Chain Data Model Only
+    Forta bots receive blockchain data exclusively — blocks, transactions, logs,
+    and traces. The system has no native data pipeline for Web2 infrastructure
+    signals. DNS change feeds, Certificate Transparency logs, npm audit APIs,
+    phishing URL databases, and BGP routing anomaly feeds are architecturally
+    outside Forta's data model. The Web2 attack surface that accounts for the
+    majority of documented DeFi losses is invisible to every bot on the network.
+
+1.2 Reactive Detection, Not Pre-Emptive
+    Forta detects anomalies in transactions that are already being processed on
+    the blockchain. By the time a detection bot fires an alert on a suspicious
+    transaction pattern, the transaction is already in the mempool or confirmed
+    in a block. In the case of the Ronin Network hack ($625M), the Curve Finance
+    DNS hijack ($570K), and the Ledger Connect Kit supply chain attack ($600K),
+    the Web2 attack indicators preceded the on-chain loss events by hours. Forta
+    would not have generated alerts until after funds had already moved.
+
+1.3 No Native Smart Contract Query Interface
+    Forta alerts are delivered to IPFS, a GraphQL API, and notification channels
+    (email, Slack, Telegram, Discord, webhooks). A DeFi protocol's smart contract
+    cannot call Forta at transaction execution time. There is no on-chain function
+    equivalent to isFlagged(bytes32 targetHash) that a Solidity contract can
+    invoke synchronously before executing a sensitive operation. The intelligence
+    exists but is architecturally inaccessible to on-chain execution.
+
+1.4 Unverified Bot Quality at Submission
+    Any developer can publish a detection bot by staking 100 FORT. There is no
+    validation of bot logic correctness at submission time. A bot can emit false
+    positives at scale, and the only consequence is reputational. The SLA
+    mechanism penalises scan nodes for failing to run assigned bots — it does not
+    penalise bots for emitting inaccurate or low-quality alerts. This creates a
+    permissionless but unverified intelligence layer.
+
+1.5 Centralised Alert Consumption
+    Despite the decentralised node network, consuming Forta alerts requires
+    either the Forta App (a centralised web interface), the Forta GraphQL API
+    (a centralised endpoint operated by the Forta Foundation), or webhook
+    subscriptions to centralised notification infrastructure. The intelligence
+    production layer is decentralised; the intelligence consumption layer is not.
+
+1.6 Severe Bot Resource Constraints
+    Each detection bot is limited to 20% CPU and 1GB of RAM when running on a
+    scan node. Complex machine learning models, large threat indicator databases,
+    or multi-source correlation engines are practically impossible to deploy
+    within these constraints. This limits the sophistication of threat detection
+    logic that can be implemented as a Forta bot.
+
+1.7 EVM-Only Chain Coverage
+    Scan nodes support EVM-compatible blockchains only (Ethereum, Polygon, BNB
+    Chain, Avalanche, Arbitrum, Optimism, Fantom). Non-EVM ecosystems including
+    Solana, Cosmos, Bitcoin Layer 2 networks, and Aptos are not covered.
+
+1.8 No Cross-Protocol Shared Intelligence
+    Each protocol team configures detection bots for their own contracts. If one
+    protocol's bot detects a suspicious address or attack pattern, that
+    intelligence is not automatically propagated to other protocols. There is no
+    shared, queryable threat registry that the entire ecosystem can benefit from.
+
+--------------------------------------------------------------------------------
+
+2. FORTA FIREWALL (FORTRESS AI MODEL)
+--------------------------------------
+Architecture: A sequencer-level transaction screening system for Layer 2
+rollups. Uses a proprietary AI model called FORTRESS that assigns each
+transaction a risk score from 0 to 1 with a claimed latency of under 60ms.
+Transactions scoring above a protocol-defined threshold are blocked before
+inclusion in a block. Claims >99% exploit recall and <0.0002% false positive
+rate.
+
+2.1 Requires Sequencer-Level Integration
+    Forta Firewall only protects rollups that have integrated it directly into
+    their sequencer pipeline. Ethereum mainnet, existing Layer 1 protocols, and
+    any rollup that has not opted in receive no protection. This is a significant
+    infrastructure change requiring rollup operator cooperation — it is not a
+    protocol-level primitive that any DeFi contract can adopt independently.
+
+2.2 On-Chain Transaction Patterns Only
+    FORTRESS is trained on historical on-chain exploit patterns. It scores
+    transaction calldata, sender behaviour, and contract interaction patterns.
+    It cannot detect that the frontend serving the transaction was compromised
+    via DNS hijacking, that the developer who signed the deployment transaction
+    was phished, or that the npm package used to build the frontend was
+    supply-chain compromised. The Web2 attack surface remains invisible.
+
+2.3 Proprietary Black Box Model
+    FORTRESS is a proprietary AI model. Its training data, model architecture,
+    feature engineering, and decision logic are not publicly auditable. DeFi
+    protocols integrating Forta Firewall must trust Forta's published performance
+    claims without independent verification. This reintroduces a centralised
+    trust assumption into what is otherwise a decentralised ecosystem.
+
+2.4 False Positive Risk at Scale
+    Even at the claimed 0.0002% false positive rate, a protocol processing one
+    million transactions per day would see approximately 200 legitimate
+    transactions incorrectly blocked every day. For high-frequency DeFi protocols
+    such as decentralised exchanges and lending markets, this represents
+    significant operational and user experience risk.
+
+2.5 Compliance Screening Centralises Policy Decisions
+    The OFAC sanctions screening and custom blacklist features mean Forta
+    Firewall is making compliance and censorship decisions on behalf of protocols.
+    Forta determines what constitutes a sanctioned address and what policy rules
+    apply. This reintroduces a centralised authority into the transaction
+    execution path — a fundamental tension with the censorship-resistance
+    properties that decentralised systems are designed to provide.
+
+2.6 No Immutable Audit Trail
+    Blocked transactions and the reasoning behind blocking decisions are not
+    stored immutably on-chain. There is no verifiable, tamper-resistant record
+    of what was blocked, why, and by whom — a significant accountability gap for
+    a system making real-time financial censorship decisions.
+
+--------------------------------------------------------------------------------
+
+3. CERTIK SKYNET
+----------------
+Architecture: A centralised security scoring and monitoring platform that
+aggregates 20+ on-chain and off-chain signals into a dynamic Skynet Score per
+project. Combines audit history, on-chain activity monitoring, governance
+signals, social sentiment, and real-time alerts into project-level security
+profiles accessible via dashboard and API.
+
+3.1 Not Queryable by Smart Contracts at Runtime
+    Skynet is a dashboard and API product designed for human analysts, investors,
+    and researchers. A DeFi protocol's smart contract cannot call Skynet at
+    transaction execution time. The intelligence exists and is comprehensive, but
+    it is architecturally inaccessible to on-chain execution. The gap between
+    off-chain intelligence and on-chain protocol behaviour remains unaddressed.
+
+3.2 Fully Centralised and Permissioned
+    CertiK controls what signals are included in the Skynet Score, how they are
+    weighted, who can access the API, and how scores are calculated. There is no
+    decentralised submission mechanism, no token incentive for external
+    contributors, and no immutable on-chain record. CertiK can modify scores,
+    suppress data, adjust weightings, or discontinue the service at any time
+    without community governance.
+
+3.3 Project-Level Granularity, Not Indicator-Level
+    Skynet scores entire projects, not specific domains, URLs, wallet addresses,
+    or infrastructure components. It cannot tell a protocol "this specific domain
+    has been flagged as a DNS hijack target in the last four hours" or "this npm
+    package version was published with anomalous activity 90 minutes ago." The
+    granularity required for real-time protocol-level threat response is absent.
+
+3.4 Commercial Conflict of Interest in Scoring
+    The Skynet Score heavily weights whether a project has been audited by
+    CertiK. Projects that pay CertiK for audit services receive higher baseline
+    scores, regardless of actual security posture. This creates a structural
+    commercial conflict of interest that undermines the independence and
+    objectivity of the scoring system.
+
+3.5 No Web2 Infrastructure Monitoring
+    Skynet monitors on-chain behaviour and social sentiment signals. It does not
+    monitor Certificate Transparency logs for fraudulent certificate issuance,
+    DNS record changes for hijacking indicators, npm package registries for
+    supply chain compromise, phishing URL feeds, or BGP routing anomalies. The
+    Web2 attack surface is not in scope.
+
+3.6 No Incentive Mechanism for External Contributors
+    Skynet is a closed intelligence platform. External security researchers
+    cannot contribute threat indicators, earn rewards for accurate submissions,
+    or participate in the validation of intelligence. The network effect of a
+    decentralised contributor base is entirely absent.
+
+--------------------------------------------------------------------------------
+
+4. OPENZEPPELIN DEFENDER / MONITOR
+------------------------------------
+Architecture: A centralised smart contract operations platform providing
+monitoring, alerting, automated response (Actions), and deployment tooling.
+Monitor watches on-chain contract transactions and emits alerts when conditions
+match configured rules. Now in maintenance mode; OpenZeppelin recommends
+migration to OpenZeppelin Monitor (their new open-source product).
+
+4.1 Fully Centralised Infrastructure
+    OpenZeppelin Defender runs entirely on OpenZeppelin's centralised
+    infrastructure. There is no decentralisation, no token model, no
+    permissionless participation, and no community governance. The platform's
+    availability, data integrity, and continued operation depend entirely on
+    OpenZeppelin as a company. The maintenance mode announcement demonstrates
+    this dependency risk concretely.
+
+4.2 No Smart Contract Query Interface
+    Like Forta, Defender alerts are delivered to notification channels (Slack,
+    Telegram, Discord, email, PagerDuty, Opsgenie, webhooks). Smart contracts
+    cannot query Defender at runtime. The intelligence layer and the execution
+    layer remain architecturally disconnected.
+
+4.3 On-Chain Events Only
+    Defender monitors contract events, function calls, and transaction patterns.
+    It has no visibility into Web2 infrastructure — DNS changes, certificate
+    issuance, supply chain activity, or phishing campaigns. The Web2 attack
+    surface is entirely outside its monitoring scope.
+
+4.4 Single ABI Constraint Per Monitor
+    A Defender monitor can only watch contracts sharing the same ABI. Monitoring
+    cross-protocol interactions or heterogeneous contract sets requires multiple
+    separately configured monitors. This creates operational overhead and
+    monitoring gaps at protocol boundaries — precisely where cross-protocol
+    attacks are most likely to occur.
+
+4.5 Protocol-Siloed Intelligence
+    Each team configures monitors for their own contracts in isolation. There is
+    no mechanism for threat intelligence to propagate across the ecosystem. If
+    one protocol's monitor detects a suspicious address or attack pattern, that
+    intelligence is not automatically available to other protocols. Every team
+    must independently discover and configure detection for the same threats.
+
+4.6 Limited Chain Support
+    Defender explicitly does not support Fantom and has varying levels of support
+    across chains. Coverage gaps exist for newer EVM chains and all non-EVM
+    ecosystems.
+
+--------------------------------------------------------------------------------
+
+5. TENDERLY ALERTS
+------------------
+Architecture: A commercial blockchain development and monitoring platform
+providing real-time event alerting, transaction simulation, and debugging
+tooling. Alerts listen for on-chain events and deliver notifications to
+configured destinations including email, messaging apps, incident management
+systems, and webhooks.
+
+5.1 Centralised SaaS with No Decentralisation
+    Tenderly is a commercial Software-as-a-Service platform. All monitoring
+    infrastructure runs on Tenderly's servers. There is no decentralisation, no
+    permissionless participation, no token model, and no community governance.
+    Platform availability and data integrity are entirely dependent on Tenderly
+    as a commercial entity.
+
+5.2 No Cross-Protocol Intelligence Sharing
+    Tenderly alerts are siloed per team and per project. There is no shared
+    threat intelligence layer. If one team's alert fires on a suspicious
+    transaction pattern, that intelligence is not propagated to other protocols
+    in the ecosystem. Each team independently monitors their own contracts with
+    no ecosystem-wide benefit.
+
+5.3 On-Chain Only
+    Tenderly monitors blockchain state — transactions, events, state changes, and
+    contract interactions. Web2 attack surface monitoring is entirely outside its
+    scope. DNS hijacking, certificate anomalies, supply chain compromise, and
+    phishing campaigns generate no Tenderly alerts.
+
+5.4 No Smart Contract Query Interface
+    Tenderly alerts are delivered to webhooks and notification channels for human
+    consumption. Smart contracts cannot query Tenderly at transaction execution
+    time. The intelligence is human-readable but not machine-executable at the
+    protocol level.
+
+5.5 Developer Tooling Focus, Not Security Infrastructure
+    Tenderly is primarily a developer productivity and debugging platform.
+    Security alerting is a secondary feature rather than the core product. This
+    means the threat model, alert quality, and security-specific features are
+    less developed than dedicated security platforms.
+
+--------------------------------------------------------------------------------
+
+6. COMPARATIVE CAPABILITY MATRIX
+----------------------------------
+
+Capability                          | Forta  | Firewall | Skynet | OZ Def | Tenderly | OCTIO
+------------------------------------|--------|----------|--------|--------|----------|-------
+Web2 monitoring (DNS/certs/phishing)| NO     | NO       | NO     | NO     | NO       | YES
+Smart contract query at runtime     | NO     | NO       | NO     | NO     | NO       | YES
+Decentralised + permissionless      | YES    | PARTIAL  | NO     | NO     | NO       | YES
+Immutable on-chain record           | PARTIAL| NO       | NO     | NO     | NO       | YES
+Incentivised contributor model      | YES    | NO       | NO     | NO     | NO       | YES
+Pre-transaction (not reactive)      | NO     | YES*     | NO     | NO     | NO       | YES
+Cross-protocol shared intelligence  | PARTIAL| NO       | NO     | NO     | NO       | YES
+Non-EVM chain support               | NO     | NO       | PARTIAL| PARTIAL| PARTIAL  | PLANNED
+Open source + auditable             | YES    | NO       | NO     | YES    | NO       | YES
+
+* Forta Firewall is pre-transaction only for integrated L2 rollups.
+  PARTIAL indicates the capability exists but with significant constraints.
+
+--------------------------------------------------------------------------------
+
+7. THE UNADDRESSED GAP — OCTIO'S RESEARCH CONTRIBUTION
+--------------------------------------------------------
+The comparative analysis above confirms a consistent and fundamental gap across
+all five deployed systems. Every system either:
+
+  (a) Monitors on-chain activity only, with no visibility into the Web2
+      infrastructure layer that accounts for the majority of documented DeFi
+      losses by value (Forta Network, OpenZeppelin Defender, Tenderly), OR
+
+  (b) Is centralised, permissioned, and architecturally inaccessible to smart
+      contracts at runtime (CertiK Skynet, OpenZeppelin Defender, Tenderly), OR
+
+  (c) Requires sequencer-level integration and remains on-chain only, with
+      centralised policy decisions embedded in the screening logic
+      (Forta Firewall / FORTRESS).
+
+None of the deployed systems can answer the question a DeFi protocol needs to
+ask at transaction execution time:
+
+  "Has the domain serving this frontend been DNS-hijacked in the last four
+   hours? Has the npm package used to build this interface been supply-chain
+   compromised? Has this wallet address been associated with a phishing
+   campaign targeting this platform?"
+
+This is the precise gap that OCTIO's architecture addresses through:
+
+  1. A Web2 monitoring layer scanning Certificate Transparency logs, DNS change
+     feeds, phishing URL databases, npm audit APIs, and BGP anomaly feeds.
+
+  2. An on-chain registry storing verified threat indicators as keccak256 hashes
+     with immutable, tamper-resistant storage on a public blockchain.
+
+  3. A native oracle query interface exposing threat data to smart contracts via
+     a Chainlink-compatible adapter, enabling synchronous threat context checks
+     at transaction execution time.
+
+  4. A token-based incentive and reputation mechanism sustaining decentralised
+     intelligence contribution without central funding or control.
+
+The academic contribution of OCTIO — the first formal architecture for
+decentralised, incentivised Web2 threat intelligence as a native Web3 primitive
+— is validated by the absence of this capability in every currently deployed
+system in the field.
+
+--------------------------------------------------------------------------------
+
+8. DOCUMENTED INCIDENTS THAT DEPLOYED SYSTEMS WOULD NOT HAVE PREVENTED
+------------------------------------------------------------------------
+
+Incident              | Loss (USD)  | Attack Vector    | Would Any System Have Prevented?
+----------------------|-------------|------------------|----------------------------------
+Ronin Network (2022)  | 625,000,000 | Phishing         | NO — Web2 attack, no on-chain signal
+Mixin Network (2023)  | 200,000,000 | Cloud breach     | NO — infrastructure layer, invisible
+MyEtherWallet (2018)  | 17,000,000  | BGP hijack       | NO — network routing layer
+Curve Finance (2022)  | 570,000     | DNS hijack       | NO — DNS layer, no on-chain signal
+Ledger Connect (2023) | 600,000     | Supply chain     | NO — npm layer, no on-chain signal
+
+In every documented case, the attack indicators were observable in Web2
+infrastructure feeds before significant losses occurred. The absence of
+infrastructure to collect, verify, and distribute those signals to on-chain
+protocols is the problem OCTIO is designed to solve.
+
+Total documented losses from Web2-origin attacks: > $843,170,000 USD
+(across the five incidents above alone)
+
+--------------------------------------------------------------------------------
+
+REFERENCES
+----------
+Forta Network Documentation. (2024). Network Overview, SLA Calculation,
+  Detection Bots, Governance. docs.forta.network
+
+Forta Firewall Documentation. (2024). Security Screening, Scam Prevention,
+  Compliance Screening. docs.forta.network/en/latest/forta-firewall-*
+
+CertiK Skynet. (2024). Platform Overview and FAQ. certik.com/products/skynet
+
+OpenZeppelin Defender. (2024). Monitor Documentation.
+  docs.openzeppelin.com/defender/v2/module/monitor
+
+Tenderly. (2024). Intro to Alerts. docs.tenderly.co/alerts/intro-to-alerts
+
+Chainalysis. (2023). The Chainalysis 2023 Crypto Crime Report.
+
+Sky Mavis. (2022). Ronin Network Security Incident Post-Mortem.
+
+Curve Finance. (2022). Post-Mortem: DNS Hijack Incident, August 2022.
+
+Ledger. (2023). Ledger Connect Kit Security Incident Report, December 2023.
+
+================================================================================
+  END OF DOCUMENT
+  OCTIO — On-Chain Threat Intelligence Oracle
+  github.com/interlockR | interlockr.github.io | MIT Licence
+================================================================================

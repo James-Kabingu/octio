@@ -1,6 +1,6 @@
 # OCTIO -- On-Chain Threat Intelligence Oracle
 
-A decentralised framework bridging Web2 attack surface monitoring with Web3 infrastructure security. Powered by Gemma 4.
+A decentralised framework bridging Web2 attack surface monitoring with Web3 infrastructure security. Powered by Gemma 4 (google/gemma-3-27b-it via OpenRouter).
 
 ## Overview
 

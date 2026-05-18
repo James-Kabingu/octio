@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-05-17T14:53:56.980076",
-  "indicators_analysed": 5,
+  "timestamp": "2026-05-18T14:00:38.441139",
+  "indicators_analysed": 2,
   "incidents_compared": 5,
   "correlation_results": {
     "high_correlation_incidents": [
@@ -8,21 +8,19 @@
       "Curve Finance DNS Hijack",
       "MyEtherWallet BGP Hijack"
     ],
-    "primary_attack_pattern": "Phishing attacks leveraging compromised branding and deceptive URLs to steal user credentials, particularly targeting access to wallets and Web3 applications. The incidents also show a willingness to use domain manipulation and redirection to harvest user data.",
+    "primary_attack_pattern": "Phishing attacks leveraging deceptive URLs and mimicking legitimate services to steal user credentials (seed phrases, private keys, or Web2 account access leading to crypto assets). This also encompasses attacks that compromise routing infrastructure or rely on domain-based deception.",
     "risk_to_defi": "CRITICAL",
     "affected_platforms": [
-      "MetaMask",
-      "All wallets interacting with DPD or Instagram via web links",
-      "Decentralized Exchanges (DEXs)",
-      "Lending Protocols",
-      "Any protocol reliant on user-initiated transactions"
+      "Ref Finance",
+      "All DeFi platforms with web-based interfaces",
+      "Platforms integrating with Apple iCloud or similar services"
     ],
     "recommended_actions": [
-      "Implement enhanced URL filtering and warning systems for users clicking links related to common phishing targets (e.g., delivery services, social media).",
-      "Deploy stricter monitoring for domain squatting and typosquatting related to popular Web3 brands and services.",
-      "Educate users about phishing risks, emphasizing the importance of verifying URLs and never entering seed phrases on unverified websites."
+      "Implement robust phishing detection and warning systems on frontends, prioritizing the blocking of visually similar domain names (typosquatting).",
+      "Educate users about the risks of phishing attacks and how to identify malicious URLs and websites, emphasizing verification of domain names and use of hardware wallets.",
+      "Enhance monitoring of DNS records and routing infrastructure for anomalies and potential hijacking attempts, utilizing real-time threat intelligence feeds."
     ],
-    "analyst_summary": "Current indicators strongly suggest a coordinated phishing campaign targeting a wide range of users and platforms. The correlation with past incidents, particularly the Ronin Network Hack, demonstrates the significant financial risk posed by these attacks. DeFi protocols must immediately strengthen their security posture and user education to mitigate the current, critical threat."
+    "analyst_summary": "Current indicators demonstrate a high probability of ongoing phishing campaigns targeting cryptocurrency users, mirroring the tactics used in past high-value attacks like Ronin and Curve.  The current threat landscape suggests a critical risk to DeFi protocols, particularly those reliant on web-based interfaces and user trust. Immediate action is required to mitigate potential credential compromise and financial losses."
   },
   "documented_incidents": [
     {

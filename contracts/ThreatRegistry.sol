@@ -126,14 +126,18 @@ contract ThreatRegistry {
      */
     function isFlagged(bytes32 targetHash)
         external
+        view
         returns (bool flagged, Severity severity, uint256 count)
     {
-        emit QueryExecuted(targetHash, flaggedTargets[targetHash], msg.sender);
         return (
             flaggedTargets[targetHash],
             maxSeverityByTarget[targetHash],
             indicatorsByTarget[targetHash].length
         );
+    }
+
+    function logQuery(bytes32 targetHash) external {
+        emit QueryExecuted(targetHash, flaggedTargets[targetHash], msg.sender);
     }
 
     /**

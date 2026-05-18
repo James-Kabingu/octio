@@ -1,78 +1,45 @@
 {
   "indicators": {
-    "ea98add3e2378071": {
-      "id": 1,
-      "target_hash": "ea98add3e2378071",
-      "url": "http://www.dpdlocoqu.cyou/com",
-      "indicator_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "DPD (Delivery Service)",
-      "reasoning": "The URL uses a misspelling of 'DPD' and a suspicious domain extension (.cyou) to impersonate the legitimate delivery service, likely to steal credentials in a phishing attack potentially leading to crypto access.",
-      "timestamp": "2026-05-17T14:47:46.908265",
-      "status": "VALIDATED"
-    },
-    "62e101f76afdf553": {
+    "a3c5cd12bfd45056adfd5eb8dd27cc07d51e2ac01a2bcd09eca2cef5bb911a96": {
       "id": 2,
-      "target_hash": "62e101f76afdf553",
-      "url": "http://www.dpdlocorz.shop/com",
-      "indicator_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "DPD (Delivery Service)",
-      "reasoning": "The URL uses a misspelling of 'DPD' and a suspicious domain (.shop) likely to impersonate the legitimate delivery service to steal login credentials or redirect users to a malicious website for credential harvesting or malware distribution.",
-      "timestamp": "2026-05-17T14:47:46.908312",
-      "status": "VALIDATED"
-    },
-    "b8250742ac31e39e": {
-      "id": 3,
-      "target_hash": "b8250742ac31e39e",
-      "url": "http://conexaosegura.pt/",
+      "target_hash": "a3c5cd12bfd45056adfd5eb8dd27cc07d51e2ac01a2bcd09eca2cef5bb911a96",
+      "url": "https://survey.refassured.com/mbMO6z3K/snooze-reminder/3",
       "indicator_type": "PHISHING",
       "severity": "MEDIUM",
-      "target": "MetaMask/Web3 Wallets",
-      "reasoning": "The URL redirects to a fake MetaMask login page designed to steal user seed phrases, despite appearing to link to a legitimate Portuguese security firm, demonstrating a classic phishing tactic of using trusted branding as a lure.",
-      "timestamp": "2026-05-17T14:47:46.908332",
+      "target": "Ref Finance",
+      "reasoning": "The URL uses 'refassured.com' which is a close misspelling of 'Ref Finance' and directs to a survey asking for credentials, likely to steal seed phrases or private keys.",
+      "timestamp": "2026-05-18T11:00:02.758113+00:00",
       "status": "VALIDATED"
     },
-    "da97dc665ba3142b": {
-      "id": 4,
-      "target_hash": "da97dc665ba3142b",
-      "url": "https://instagram.com.universal-api.org/",
+    "0d2c67bc513545c37b7489b678d9eabc940d61fa85fa70b89b990631c52900d1": {
+      "id": 2,
+      "target_hash": "0d2c67bc513545c37b7489b678d9eabc940d61fa85fa70b89b990631c52900d1",
+      "url": "https://fndmy-support.com/app/webroot/script/navigation_compass_find_devices_login_b4_passcode4/2026/",
       "indicator_type": "PHISHING",
       "severity": "HIGH",
-      "target": "Instagram",
-      "reasoning": "The URL uses a deceptive subdomain 'universal-api.org' to mimic a legitimate Instagram login page, likely aiming to steal credentials from users.",
-      "timestamp": "2026-05-17T14:47:46.908347",
-      "status": "VALIDATED"
-    },
-    "3a993b3b1535bfe9": {
-      "id": 5,
-      "target_hash": "3a993b3b1535bfe9",
-      "url": "http://www.songshuym.com/",
-      "indicator_type": "PHISHING",
-      "severity": "MEDIUM",
-      "target": "MetaMask",
-      "reasoning": "The website closely mimics the official MetaMask website (note the similar domain name 'songshuym' sounding like 'metamask'), and is designed to steal wallet seed phrases or private keys by prompting users to 'import' or 'connect' their wallets, which is a hallmark of MetaMask phishing sites.",
-      "timestamp": "2026-05-17T14:47:46.908364",
+      "target": "Find My Device (Apple)",
+      "reasoning": "The URL attempts to mimic Apple's Find My Device service with deceptive subdomains and file paths designed to steal iCloud credentials and potentially cryptocurrency associated with the account.",
+      "timestamp": "2026-05-18T11:00:02.758157+00:00",
       "status": "VALIDATED"
     }
   },
   "query_log": [
     {
       "query": "http://www.dpdlocoqu.cyou/com",
-      "target_hash": "ea98add3e2378071",
-      "timestamp": "2026-05-17T14:47:46.908405"
+      "target_hash": "3ebbf03764ecb0796f3e3806342d4c38a5683fbc30555fbf7f5a802a494f684d",
+      "timestamp": "2026-05-18T11:00:02.758228+00:00"
     },
     {
       "query": "https://uniswap.org",
-      "target_hash": "e6da479ca919f443",
-      "timestamp": "2026-05-17T14:47:46.908440"
+      "target_hash": "7eb6eb8c21eb69e8bc8717b4b8bcdec683f17ac351c39a0985af7516e2cef42e",
+      "timestamp": "2026-05-18T11:00:02.758305+00:00"
     },
     {
       "query": "http://metamask-security-alert.com/connect",
-      "target_hash": "5c4fb122e137877a",
-      "timestamp": "2026-05-17T14:47:46.908476"
+      "target_hash": "dc87e8675e772e210876f27b7588937f9c5d79585c4a9f30b669891279da7ea9",
+      "timestamp": "2026-05-18T11:00:02.758354+00:00"
     }
   ],
-  "total_indicators": 5,
+  "total_indicators": 2,
   "total_queries": 3
 }

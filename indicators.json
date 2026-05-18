@@ -1,62 +1,62 @@
 [
   {
-    "url": "http://www.dpdlocoqu.cyou/com",
-    "target_hash": "ea98add3e2378071",
-    "timestamp": "2026-05-17T11:44:31.919607",
-    "gemma_analysis": {
-      "is_threat": true,
-      "threat_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "DPD (Delivery Service)",
-      "reasoning": "The URL uses a misspelling of 'DPD' and a suspicious domain extension (.cyou) to impersonate the legitimate delivery service, likely to steal credentials in a phishing attack potentially leading to crypto access."
-    }
-  },
-  {
-    "url": "http://www.dpdlocorz.shop/com",
-    "target_hash": "62e101f76afdf553",
-    "timestamp": "2026-05-17T11:44:40.037523",
-    "gemma_analysis": {
-      "is_threat": true,
-      "threat_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "DPD (Delivery Service)",
-      "reasoning": "The URL uses a misspelling of 'DPD' and a suspicious domain (.shop) likely to impersonate the legitimate delivery service to steal login credentials or redirect users to a malicious website for credential harvesting or malware distribution."
-    }
-  },
-  {
-    "url": "http://conexaosegura.pt/",
-    "target_hash": "b8250742ac31e39e",
-    "timestamp": "2026-05-17T11:44:42.388429",
+    "url": "https://survey.refassured.com/mbMO6z3K",
+    "target_hash": "a3c5cd12bfd45056adfd5eb8dd27cc07d51e2ac01a2bcd09eca2cef5bb911a96",
+    "timestamp": "2026-05-18T10:58:51.221299+00:00",
     "gemma_analysis": {
       "is_threat": true,
       "threat_type": "PHISHING",
       "severity": "MEDIUM",
-      "target": "MetaMask/Web3 Wallets",
-      "reasoning": "The URL redirects to a fake MetaMask login page designed to steal user seed phrases, despite appearing to link to a legitimate Portuguese security firm, demonstrating a classic phishing tactic of using trusted branding as a lure."
+      "target": "Ref Finance/RefAssured",
+      "reasoning": "The URL uses a survey subdomain (survey.refassured.com) which is commonly used in phishing campaigns to collect sensitive information by impersonating the legitimate Ref Finance platform."
     }
   },
   {
-    "url": "https://instagram.com.universal-api.org/",
-    "target_hash": "da97dc665ba3142b",
-    "timestamp": "2026-05-17T11:44:49.438317",
+    "url": "https://survey.refassured.com/mbMO6z3K/snooze-reminder/2",
+    "target_hash": "a3c5cd12bfd45056adfd5eb8dd27cc07d51e2ac01a2bcd09eca2cef5bb911a96",
+    "timestamp": "2026-05-18T10:58:59.838507+00:00",
     "gemma_analysis": {
       "is_threat": true,
       "threat_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "Instagram",
-      "reasoning": "The URL uses a deceptive subdomain 'universal-api.org' to mimic a legitimate Instagram login page, likely aiming to steal credentials from users."
+      "severity": "MEDIUM",
+      "target": "Ref Finance / RefAssured",
+      "reasoning": "The URL uses a 'survey' subdomain and a seemingly random string ('mbMO6z3K') combined with a 'snooze-reminder' path, which is typical of phishing attempts designed to mimic legitimate notifications from services like Ref Finance, asking for user credentials or wallet connection."
     }
   },
   {
-    "url": "http://www.songshuym.com/",
-    "target_hash": "3a993b3b1535bfe9",
-    "timestamp": "2026-05-17T11:44:57.742411",
+    "url": "https://survey.refassured.com/mbMO6z3K/snooze-reminder/4",
+    "target_hash": "a3c5cd12bfd45056adfd5eb8dd27cc07d51e2ac01a2bcd09eca2cef5bb911a96",
+    "timestamp": "2026-05-18T10:59:03.029373+00:00",
     "gemma_analysis": {
       "is_threat": true,
       "threat_type": "PHISHING",
       "severity": "MEDIUM",
       "target": "MetaMask",
-      "reasoning": "The website closely mimics the official MetaMask website (note the similar domain name 'songshuym' sounding like 'metamask'), and is designed to steal wallet seed phrases or private keys by prompting users to 'import' or 'connect' their wallets, which is a hallmark of MetaMask phishing sites."
+      "reasoning": "The URL utilizes a suspicious subdomain ('survey.refassured.com') and path ('snooze-reminder') designed to mimic a MetaMask reminder regarding a snoozed transaction, attempting to trick users into entering their seed phrase or private key."
+    }
+  },
+  {
+    "url": "https://survey.refassured.com/mbMO6z3K/snooze-reminder/3",
+    "target_hash": "a3c5cd12bfd45056adfd5eb8dd27cc07d51e2ac01a2bcd09eca2cef5bb911a96",
+    "timestamp": "2026-05-18T10:59:07.327642+00:00",
+    "gemma_analysis": {
+      "is_threat": true,
+      "threat_type": "PHISHING",
+      "severity": "MEDIUM",
+      "target": "Ref Finance",
+      "reasoning": "The URL uses 'refassured.com' which is a close misspelling of 'Ref Finance' and directs to a survey asking for credentials, likely to steal seed phrases or private keys."
+    }
+  },
+  {
+    "url": "https://fndmy-support.com/app/webroot/script/navigation_compass_find_devices_login_b4_passcode4/2026/",
+    "target_hash": "0d2c67bc513545c37b7489b678d9eabc940d61fa85fa70b89b990631c52900d1",
+    "timestamp": "2026-05-18T10:59:10.726000+00:00",
+    "gemma_analysis": {
+      "is_threat": true,
+      "threat_type": "PHISHING",
+      "severity": "HIGH",
+      "target": "Find My Device (Apple)",
+      "reasoning": "The URL attempts to mimic Apple's Find My Device service with deceptive subdomains and file paths designed to steal iCloud credentials and potentially cryptocurrency associated with the account."
     }
   }
 ]

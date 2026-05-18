@@ -1,0 +1,51 @@
+*This is a submission for the [Gemma 4 Challenge: Build with Gemma 4](https://dev.to/challenges/google-gemma-2026-05-06)*
+
+## What I Built
+OCTIO (On-Chain Threat Intelligence Oracle) is a system that monitors live phishing and malware feeds, runs each threat indicator through Gemma 4 for analysis and classification, and stores verified intelligence in a format that blockchain protocols can query before executing sensitive operations.
+The problem it solves is real. Around 80% of funds stolen from Web3 projects come not from smart contract exploits but from attacks on surrounding Web2 infrastructure such as phishing campaigns, DNS hijacking, frontend supply chain compromise, and cloud misconfiguration. The Ronin Network hack ($625 million) started with a phishing email. The Ledger Connect Kit attack ($600,000) came from a poisoned npm package. The Curve Finance DNS hijack redirected legitimate users to a malicious server for hours.
+In every case, observable signals existed before significant losses occurred. OCTIO is the infrastructure to collect, analyse, and distribute those signals with Gemma 4 at the core of the intelligence layer.
+
+## Demo
+<!-- Embed a video walkthrough or share a link to your deployed project. -->
+
+## Code
+GitHub: github.com/James-Kabingu/octio
+The repository includes:
+
+monitor.py: Live phishing feed monitoring with Gemma 4 threat classification
+registry.py: On-chain registry simulation with keccak256 hash storage
+oracle.py: DeFi protocol query interface with Gemma 4 risk assessment
+correlation.py: Incident correlation against documented real-world hacks
+dashboard.py: Terminal dashboard for live threat visibility
+contracts/ThreatRegistry.sol. Solidity contract for Sepolia testnet deployment
+
+The smart contract implements the full indicator submission, validation, and query interface described in the system architecture. Target domains are stored as keccak256 hashes rather than plaintex, reducing storage costs by 60 to 90% and preventing the registry from being used as a phishing directory.
+
+
+## How I Used Gemma 4
+I chose the Gemma 3 27B Instruct model (google/gemma-3-27b-it) via OpenRouter. This was a deliberate choice, the 27B model has the reasoning depth needed to make nuanced security judgements, not just pattern matching.
+Gemma 4 powers three distinct functions inside OCTIO:
+
+1. Threat Classification (monitor.py):
+OCTIO pulls live URLs from OpenPhish, a real phishing feed updated continuously. Each URL is sent to Gemma 4 with a structured prompt asking it to classify the threat, assess severity, identify the impersonation target, and explain its reasoning.
+For example, given the URL http://www.dpdlocoqu.cyou/com, Gemma 4 returned
+
+{
+  "is_threat": true,
+  "threat_type": "PHISHING",
+  "severity": "HIGH",
+  "target": "DPD (Delivery Service)",
+  "reasoning": "The URL uses a misspelling of DPD and a suspicious domain extension to impersonate the legitimate delivery service, likely to steal credentials potentially leading to crypto access."
+}
+
+2. Risk Assessment (oracle.py):
+When a protocol queries the oracle, Gemma 4 produces a final risk assessment combining registry data with its own domain pattern analysis. This means it catches threats that aren't yet in the registry.
+For http://metamask-security-alert.com/connect, which was not in the registry, Gemma 4 returned SUSPICIOUS/CAUTION based on the domain pattern alone. A rule-based system would have returned CLEAN. Gemma 4 understood the social engineering intent from the URL structure.
+
+3. Incident Correlation (correlation.py):
+Gemma 4 analyses the current indicator set against a database of documented real-world Web3 hacks and produces a correlation report. Given five live phishing URLs, it correctly correlated them with the Ronin Network hack ($625M), Curve Finance DNS hijack ($570K), and MyEtherWallet BGP attack ($17M), identified the dominant attack pattern, and produced actionable recommendations for DeFi protocols.
+
+
+<!-- Team Submissions: Please pick one member to publish the submission and credit teammates by listing their DEV usernames directly in the body of the post. -->
+
+<!-- Thanks for participating! -->

@@ -1,10 +1,11 @@
 import json
-import os
-import subprocess
-from datetime import datetime
+import pathlib
+from datetime import datetime, timezone
+
+BASE = pathlib.Path("/home/james-warren/Projects/Vektasafe Projects/octio")
 
 def clear():
-    os.system('clear')
+    print('\033[2J\033[H', end='')
 
 def load_json(path):
     try:
@@ -17,7 +18,7 @@ def print_header():
     print("=" * 70)
     print("  OCTIO -- On-Chain Threat Intelligence Oracle")
     print("  Powered by Gemma 4 (google/gemma-3-27b-it) via OpenRouter")
-    print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} UTC")
+    print(f"  {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC")
     print("=" * 70)
 
 def print_indicators(registry):
@@ -26,10 +27,10 @@ def print_indicators(registry):
         return
     indicators = list(registry["indicators"].values())
     print(f"\n[ THREAT INDICATORS ] -- {len(indicators)} validated\n")
-    print(f"  {'#':<4} {'TYPE':<15} {'SEVERITY':<10} {'TARGET':<30} {'HASH':<18}")
-    print(f"  {'-'*4} {'-'*15} {'-'*10} {'-'*30} {'-'*18}")
+    print(f"  {'#':<4} {'TYPE':<15} {'SEVERITY':<10} {'TARGET':<30} {'HASH':<20}")
+    print(f"  {'-'*4} {'-'*15} {'-'*10} {'-'*30} {'-'*20}")
     for ind in indicators:
-        print(f"  {ind['id']:<4} {ind['indicator_type']:<15} {ind['severity']:<10} {ind['target'][:28]:<30} {ind['target_hash']:<18}")
+        print(f"  {ind['id']:<4} {ind['indicator_type']:<15} {ind['severity']:<10} {ind['target'][:28]:<30} {ind['target_hash'][:18]:<20}")
 
 def print_oracle_results(oracle):
     if not oracle:
@@ -96,16 +97,15 @@ def print_stats(registry, oracle, corr):
     print(f"  Oracle queries run     : {total_queries}")
     print(f"  Threats blocked        : {blocked}")
     print(f"  Current risk level     : {risk}")
-    print(f"  Gemma 4 model          : google/gemma-3-27b-it")
+    print(f"  Gemma model            : google/gemma-3-27b-it")
     print(f"  Contract               : ThreatRegistry.sol (Sepolia testnet)")
+    print(f"  Hash algorithm         : keccak256 (EVM compatible)")
 
 def run_dashboard():
     clear()
-    base = "/home/james-warren/Projects/Vektasafe Projects/octio"
-
-    registry = load_json(f"{base}/registry.json")
-    oracle = load_json(f"{base}/oracle_results.json")
-    corr = load_json(f"{base}/correlation.json")
+    registry = load_json(BASE / "registry.json")
+    oracle = load_json(BASE / "oracle_results.json")
+    corr = load_json(BASE / "correlation.json")
 
     print_header()
     print_stats(registry, oracle, corr)
@@ -115,7 +115,7 @@ def run_dashboard():
     print_recommended_actions(corr)
 
     print("\n" + "=" * 70)
-    print("  OCTIO -- github.com/vektasafe -- vektasafe.github.io")
+    print("  OCTIO -- github.com/vektasafe/octio -- vektasafe.github.io")
     print("=" * 70 + "\n")
 
 if __name__ == "__main__":

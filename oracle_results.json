@@ -1,62 +1,62 @@
 [
   {
     "target": "http://www.dpdlocoqu.cyou/com",
-    "target_hash": "ea98add3e2378071",
-    "in_registry": true,
-    "registry_severity": "HIGH",
-    "gemma_assessment": {
-      "risk_level": "CRITICAL",
-      "recommendation": "BLOCK",
-      "reasoning": "The target URL is a confirmed phishing site actively impersonating a legitimate service to steal credentials, posing an immediate threat to user funds and protocol security."
-    },
-    "timestamp": "2026-05-17T14:51:39.342975"
-  },
-  {
-    "target": "https://uniswap.org",
-    "target_hash": "e6da479ca919f443",
-    "in_registry": false,
-    "registry_severity": null,
-    "gemma_assessment": {
-      "risk_level": "SAFE",
-      "recommendation": "PROCEED",
-      "reasoning": "uniswap.org is the official website for the well-established Uniswap decentralized exchange and presents a low risk based on domain reputation."
-    },
-    "timestamp": "2026-05-17T14:51:47.981253"
-  },
-  {
-    "target": "http://metamask-security-alert.com/connect",
-    "target_hash": "5c4fb122e137877a",
+    "target_hash": "3ebbf03764ecb0796f3e3806342d4c38a5683fbc30555fbf7f5a802a494f684d",
     "in_registry": false,
     "registry_severity": null,
     "gemma_assessment": {
       "risk_level": "SUSPICIOUS",
       "recommendation": "CAUTION",
-      "reasoning": "The domain name \"metamask-security-alert.com\" is designed to mimic legitimate MetaMask communications and likely intends to phish user credentials or approve malicious transactions."
+      "reasoning": "The domain 'dpdlocoqu.cyou' uses a relatively uncommon top-level domain (.cyou) and a nonsensical subdomain suggesting potential malicious intent or a newly created site."
     },
-    "timestamp": "2026-05-17T14:51:51.867096"
+    "timestamp": "2026-05-18T11:00:10.040869+00:00"
   },
   {
-    "target": "https://aave.com",
-    "target_hash": "2f2e3a63a4066fd9",
+    "target": "https://uniswap.org",
+    "target_hash": "7eb6eb8c21eb69e8bc8717b4b8bcdec683f17ac351c39a0985af7516e2cef42e",
     "in_registry": false,
     "registry_severity": null,
     "gemma_assessment": {
       "risk_level": "SAFE",
       "recommendation": "PROCEED",
-      "reasoning": "Aave is a well-established and audited DeFi lending protocol with a strong security track record."
+      "reasoning": "uniswap.org is the official website for the well-established Uniswap decentralized exchange, and interacting with it directly is generally considered safe."
     },
-    "timestamp": "2026-05-17T14:51:54.314559"
+    "timestamp": "2026-05-18T11:00:12.563351+00:00"
+  },
+  {
+    "target": "http://metamask-security-alert.com/connect",
+    "target_hash": "dc87e8675e772e210876f27b7588937f9c5d79585c4a9f30b669891279da7ea9",
+    "in_registry": false,
+    "registry_severity": null,
+    "gemma_assessment": {
+      "risk_level": "SUSPICIOUS",
+      "recommendation": "CAUTION",
+      "reasoning": "The domain name \"metamask-security-alert.com\" attempts to impersonate MetaMask and specifically uses 'security-alert' which is a common phishing tactic to create a sense of urgency."
+    },
+    "timestamp": "2026-05-18T11:00:20.875733+00:00"
+  },
+  {
+    "target": "https://aave.com",
+    "target_hash": "1f78a172c2f302d1bd16087c26c3fd852f4186ddf2cf30545bb563f15ff1a9cd",
+    "in_registry": false,
+    "registry_severity": null,
+    "gemma_assessment": {
+      "risk_level": "SAFE",
+      "recommendation": "PROCEED",
+      "reasoning": "Aave is a well-established and audited DeFi lending protocol with a long track record, posing a low inherent risk based on domain reputation."
+    },
+    "timestamp": "2026-05-18T11:00:27.433061+00:00"
   },
   {
     "target": "http://instagram.com.universal-api.org/",
-    "target_hash": "da97dc665ba3142b",
-    "in_registry": true,
-    "registry_severity": "HIGH",
+    "target_hash": "e39964964e42da4999f41ac70176a711d6cbfb07f7bb95f5064ad380e62e8d1f",
+    "in_registry": false,
+    "registry_severity": null,
     "gemma_assessment": {
-      "risk_level": "CRITICAL",
-      "recommendation": "BLOCK",
-      "reasoning": "The target is a known phishing URL designed to steal user credentials by mimicking Instagram, posing an immediate and severe threat to the protocol and its users."
+      "risk_level": "SUSPICIOUS",
+      "recommendation": "CAUTION",
+      "reasoning": "The domain uses a subdomain of 'instagram.com' but points to a '.org' TLD and 'universal-api' suggests a potential attempt to mimic legitimate Instagram APIs for malicious purposes."
     },
-    "timestamp": "2026-05-17T14:51:56.194315"
+    "timestamp": "2026-05-18T11:00:30.374146+00:00"
   }
 ]

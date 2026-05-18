@@ -1,6 +1,9 @@
 import json
-import hashlib
-from datetime import datetime
+import pathlib
+from datetime import datetime, timezone
+from eth_hash.auto import keccak
+
+BASE = pathlib.Path("/home/james-warren/Projects/Vektasafe Projects/octio")
 
 class ThreatRegistry:
     def __init__(self):
@@ -8,9 +11,8 @@ class ThreatRegistry:
         self.query_log = []
 
     def submit_indicator(self, url, analysis):
-        target_hash = hashlib.sha256(
-            url.split("/")[2].encode() if len(url.split("/")) > 2 else url.encode()
-        ).hexdigest()[:16]
+        domain = url.split("/")[2] if len(url.split("/")) > 2 else url
+        target_hash = keccak(domain.encode()).hex()
 
         indicator = {
             "id": len(self.indicators) + 1,
@@ -20,23 +22,22 @@ class ThreatRegistry:
             "severity": analysis["severity"],
             "target": analysis["target"],
             "reasoning": analysis["reasoning"],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "status": "VALIDATED"
         }
 
         self.indicators[target_hash] = indicator
-        print(f"  Submitted indicator #{indicator['id']} -- {target_hash}")
+        print(f"  Submitted indicator #{indicator['id']} -- {target_hash[:16]}...")
         return indicator
 
     def is_flagged(self, url):
-        target_hash = hashlib.sha256(
-            url.split("/")[2].encode() if len(url.split("/")) > 2 else url.encode()
-        ).hexdigest()[:16]
+        domain = url.split("/")[2] if len(url.split("/")) > 2 else url
+        target_hash = keccak(domain.encode()).hex()
 
         self.query_log.append({
             "query": url,
             "target_hash": target_hash,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         })
 
         if target_hash in self.indicators:
@@ -60,7 +61,7 @@ class ThreatRegistry:
 def load_and_register():
     registry = ThreatRegistry()
 
-    with open("/home/james-warren/Projects/Vektasafe Projects/octio/indicators.json") as f:
+    with open(BASE / "indicators.json") as f:
         indicators = json.load(f)
 
     print("\n=== OCTIO On-Chain Registry (Simulation) ===")
@@ -87,7 +88,7 @@ def load_and_register():
         else:
             print(f"CLEAN: {url}")
 
-    registry.save("/home/james-warren/Projects/Vektasafe Projects/octio/registry.json")
+    registry.save(BASE / "registry.json")
     return registry
 
 if __name__ == "__main__":
