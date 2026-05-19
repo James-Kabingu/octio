@@ -6,3 +6,7 @@ indicators.json
 registry.json
 oracle_results.json
 correlation.json
+foundry/out/
+foundry/cache/
+foundry/lib/
+foundry/broadcast/
