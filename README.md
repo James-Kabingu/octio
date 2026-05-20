@@ -2,7 +2,7 @@
 
 A decentralised framework bridging Web2 attack surface monitoring with Web3 infrastructure security. Powered by Gemma 4.
 
-**Author:** James Kabingu -- Vektasafe
+**Author:** James Kabingu -- [OCTIO-Labs](https://github.com/OCTIO-Labs) | [Vektasafe](https://github.com/vektasafe)
 **GitHub:** github.com/vektasafe/octio
 **Portfolio:** vektasafe.github.io
 **Licence:** MIT
