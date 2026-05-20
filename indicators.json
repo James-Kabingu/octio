@@ -1,62 +1,126 @@
 [
   {
-    "url": "https://pedagiodigital-flow.com/vias/home.php",
-    "target_hash": "efbe720346f8f9c0d340aa4261c8b03129a4024b8e21d1dce1a13eef764cd0d6",
-    "timestamp": "2026-05-18T15:56:43.404023+00:00",
+    "url": "https://s4w.in/roblox-com-users-9696597261-profile",
+    "target_hash": "5983f76c379a6b245eca3744a533b0538c55d68a3c052cd9bfc7139cdd3652c6",
+    "timestamp": "2026-05-20T01:19:45.723632+00:00",
     "gemma_analysis": {
       "is_threat": true,
       "threat_type": "PHISHING",
       "severity": "MEDIUM",
-      "target": "viaviasocial.com (VIA Alliance)",
-      "reasoning": "The URL mimics the legitimate VIA Alliance website (viasocial.com) and uses 'pedagiodigital-flow' which is a suspicious domain name, likely attempting to steal user credentials through a fake login page."
-    }
+      "target": "Roblox",
+      "reasoning": "The URL uses a shortened link (s4w.in) and attempts to mimic a Roblox user profile URL, potentially leading users to a fake login page to steal their account credentials."
+    },
+    "virustotal": {
+      "found": true,
+      "malicious": 16,
+      "suspicious": 1,
+      "harmless": 48,
+      "undetected": 27,
+      "reputation": 0,
+      "categories": [
+        "advice",
+        "shopping",
+        "phishing and fraud"
+      ],
+      "vt_verdict": "MALICIOUS"
+    },
+    "confidence": "HIGH",
+    "confidence_reason": "Gemma 4 and VirusTotal both flag as malicious"
   },
   {
-    "url": "https://meta-id90013.agency-manager-support.com/",
-    "target_hash": "92f073482fd2334240409296e231de7e85ba5fc1e70dec99f13dd51de7cf3835",
-    "timestamp": "2026-05-18T15:56:50.017500+00:00",
-    "gemma_analysis": {
-      "is_threat": true,
-      "threat_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "MetaMask",
-      "reasoning": "The URL attempts to mimic a legitimate support domain for MetaMask, using 'meta-' and 'agency-manager-support' to deceive users into providing sensitive information like seed phrases or private keys."
-    }
-  },
-  {
-    "url": "http://www.pcn-noticea.top/com/",
-    "target_hash": "1d125d00a6ef2012fa7f8786121084e89232b7ba82f4fe4c3ec35105f6fe63d4",
-    "timestamp": "2026-05-18T15:56:53.213832+00:00",
-    "gemma_analysis": {
-      "is_threat": true,
-      "threat_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "Package Delivery/Notice",
-      "reasoning": "The URL uses a suspicious domain 'pcn-noticea.top' attempting to impersonate a package notification service, a common phishing tactic to steal credentials or install malware through malicious downloads."
-    }
-  },
-  {
-    "url": "http://www.pcn-noticra.top/com/",
-    "target_hash": "4a127e3bcb7440f2935a7552ad0b6368a00c77ed97a7c9e72ac0523379b4a58c",
-    "timestamp": "2026-05-18T15:57:01.552997+00:00",
-    "gemma_analysis": {
-      "is_threat": true,
-      "threat_type": "PHISHING",
-      "severity": "HIGH",
-      "target": "Unknown - likely impersonating a notification service or legal notice related to cryptocurrency/Web3",
-      "reasoning": "The domain 'pcn-noticra.top' is a newly registered domain with a suspicious top-level domain ('.top') and suggests an attempt to mimic official notices, common in Web3 phishing scams."
-    }
-  },
-  {
-    "url": "https://tiktokvc-1330623827.pichk.myqcloud.com/index.html",
-    "target_hash": "f63ac3c186f137b6115298b70ce719f775e3513b5506aecadeea71bdd59b6bbf",
-    "timestamp": "2026-05-18T15:57:05.299353+00:00",
+    "url": "https://www.roblox.et/users/1336597261/profile",
+    "target_hash": "8d146aa1d23ac1440232c613a9f3d11cb2423b9aa144c912fa1ad103618efe99",
+    "timestamp": "2026-05-20T01:19:53.989147+00:00",
     "gemma_analysis": {
       "is_threat": true,
       "threat_type": "PHISHING",
       "severity": "MEDIUM",
-      "target": "TikTok VC or potentially a broader investment scam",
-      "reasoning": "The URL uses a suspicious subdomain ('tiktokvc-1330623827.pichk.myqcloud.com') and a generic 'index.html' endpoint, suggesting an attempt to impersonate a TikTok venture capital firm or similar entity to solicit investment, likely a scam."
-    }
+      "target": "Roblox",
+      "reasoning": "The URL uses a 'roblox.et' domain which is a known trick to mimic the legitimate 'roblox.com' domain and likely attempts to steal Roblox account credentials or linked cryptocurrency assets."
+    },
+    "virustotal": {
+      "found": true,
+      "malicious": 19,
+      "suspicious": 0,
+      "harmless": 41,
+      "undetected": 32,
+      "reputation": 0,
+      "categories": [],
+      "vt_verdict": "MALICIOUS"
+    },
+    "confidence": "HIGH",
+    "confidence_reason": "Gemma 4 and VirusTotal both flag as malicious"
+  },
+  {
+    "url": "http://www.apex-bet365.com/",
+    "target_hash": "08a0f97d12cf4523fbfd68cacdffbfa5e233db133dcd8f3f4cb60030cd04c8a5",
+    "timestamp": "2026-05-20T01:19:57.907459+00:00",
+    "gemma_analysis": {
+      "is_threat": true,
+      "threat_type": "PHISHING",
+      "severity": "MEDIUM",
+      "target": "bet365",
+      "reasoning": "The URL attempts to mimic the legitimate Bet365 domain (bet365.com) but uses a misspelled domain (apex-bet365.com) and a non-HTTPS connection, suggesting a phishing attempt to steal login credentials or financial information."
+    },
+    "virustotal": {
+      "found": true,
+      "malicious": 15,
+      "suspicious": 1,
+      "harmless": 45,
+      "undetected": 31,
+      "reputation": 0,
+      "categories": [],
+      "vt_verdict": "MALICIOUS"
+    },
+    "confidence": "HIGH",
+    "confidence_reason": "Gemma 4 and VirusTotal both flag as malicious"
+  },
+  {
+    "url": "https://lnk.ink/www.robIox.com.users-8137420814-profile",
+    "target_hash": "d5328ededdd1c2da18a8a28f17c695e0977f1fab32b111972ac284beba26711c",
+    "timestamp": "2026-05-20T01:20:16.957940+00:00",
+    "gemma_analysis": {
+      "is_threat": true,
+      "threat_type": "PHISHING",
+      "severity": "HIGH",
+      "target": "Roblox",
+      "reasoning": "The URL uses a link shortener (lnk.ink) and a suspicious subdomain ('users-8137420814-profile') combined with a misspelled domain ('robIox.com') which strongly indicates a phishing attempt to steal Roblox account credentials, potentially used for NFT or virtual currency fraud."
+    },
+    "virustotal": {
+      "found": true,
+      "malicious": 14,
+      "suspicious": 0,
+      "harmless": 49,
+      "undetected": 29,
+      "reputation": 0,
+      "categories": [],
+      "vt_verdict": "MALICIOUS"
+    },
+    "confidence": "HIGH",
+    "confidence_reason": "Gemma 4 and VirusTotal both flag as malicious"
+  },
+  {
+    "url": "https://robloxc.com.es/users/570224686/profile",
+    "target_hash": "a7e69eb61a1fa44f9102a549d158f6fb4b02424e87d11a8670b2e633d82b8c41",
+    "timestamp": "2026-05-20T01:20:23.054754+00:00",
+    "gemma_analysis": {
+      "is_threat": true,
+      "threat_type": "PHISHING",
+      "severity": "MEDIUM",
+      "target": "Roblox",
+      "reasoning": "The URL uses a domain (robloxc.com.es) that imitates the legitimate Roblox domain (roblox.com) and attempts to appear as a Roblox profile page, which is a common tactic used in phishing attacks to steal account credentials."
+    },
+    "virustotal": {
+      "found": true,
+      "malicious": 16,
+      "suspicious": 1,
+      "harmless": 45,
+      "undetected": 30,
+      "reputation": -7,
+      "categories": [],
+      "vt_verdict": "MALICIOUS"
+    },
+    "confidence": "HIGH",
+    "confidence_reason": "Gemma 4 and VirusTotal both flag as malicious"
   }
 ]
